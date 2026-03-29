@@ -1,0 +1,22 @@
+CC := "gcc"
+CFLAGS := "-std=c23 -Wall -Wextra -Isrc"
+
+default: run
+
+build-lib:
+    @mkdir -p build
+    @echo "Compiling arena object file..."
+    {{ CC }} {{ CFLAGS }} -c src/arena.c -o build/arena.o
+    @echo "Creating static library libarena.a..."
+    ar rcs build/libarena.a build/arena.o
+
+build-test: build-lib
+    @echo "Linking main with arena library..."
+    {{ CC }} {{ CFLAGS }} test/main.c -Lbuild -larena -o build/test_arena
+
+run: build-test
+    @echo "Running arena tests...\n"
+    ./build/test_arena
+
+clean:
+    rm -rf build
