@@ -17,7 +17,7 @@ void arena_init(Arena *a, size_t size) {
 
 void *arena_alloc(Arena *a, size_t size) {
     size_t align = _Alignof(max_align_t);
-    size_t padding = (align - (a->offset % align)) % align;
+    size_t padding = (a->offset + (align - 1)) & ~(align - 1);
     size_t aligned_offset = a->offset + padding;
 
     if (aligned_offset + size > a->capacity) {
