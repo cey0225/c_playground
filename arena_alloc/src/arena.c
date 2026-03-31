@@ -1,4 +1,5 @@
 #include "arena.h"
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -9,7 +10,7 @@ void arena_init(Arena *a, size_t size) {
 }
 
 void *arena_alloc(Arena *a, size_t size) {
-    size_t align = 8;
+    size_t align = _Alignof(max_align_t);
     size_t padding = (align - (a->offset % align)) % align;
     size_t aligned_offset = a->offset + padding;
 
