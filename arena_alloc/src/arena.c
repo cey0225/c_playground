@@ -5,6 +5,12 @@
 
 void arena_init(Arena *a, size_t size) {
     a->buffer = (unsigned char *) malloc(size);
+
+    if (a->buffer == NULL) {
+        fprintf(stderr, "Error: Arena allocation failed (requested %zu bytes)\n", size);
+        exit(1);
+    }
+
     a->capacity = size;
     a->offset = 0;
 }
